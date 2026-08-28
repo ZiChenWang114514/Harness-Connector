@@ -1,0 +1,6 @@
+{
+  "invoke_timeout_seconds": 600,
+  "smoke_provider": "openai-codex",
+  "smoke_model": "gpt-5.6-luna",
+  "smoke_reply": "ANY_TO_PI_NEW"
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "DeepSeek Harness Session"
+  short_description: "Run and inspect local DSH V4 sessions"
+  default_prompt: "Use $codex-dsh-session to inspect DeepSeek Harness and run this task in the specified workspace."

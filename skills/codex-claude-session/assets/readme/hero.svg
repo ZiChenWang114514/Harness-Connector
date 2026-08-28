@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">Any-to-Claude-Code</title>
+  <desc id="desc">Route work from any compatible coding harness to an exact Claude Code session.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#070B12"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <linearGradient id="trace" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#F3B49F"/><stop offset="1" stop-color="#D97757"/></linearGradient>
+  </defs>
+  <rect width="1200" height="420" rx="30" fill="url(#bg)"/>
+  <path d="M0 78H1200M706 78V420" stroke="#273244"/>
+  <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="18">
+    <circle cx="58" cy="39" r="6" fill="#D97757"/><text x="76" y="46" fill="#9CA3AF">ANY-TO HARNESS ADAPTER</text>
+    <text x="1140" y="46" text-anchor="end" fill="#F3B49F">OFFICIAL SUBSCRIPTION · DEEPSEEK V4</text>
+  </g>
+  <g transform="translate(58 126)" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">
+    <text x="0" y="0" fill="#F8FAFC" font-size="59" font-weight="760">Any-to</text>
+    <text x="0" y="68" fill="#D97757" font-size="59" font-weight="760">Claude Code</text>
+    <text x="0" y="124" fill="#CBD5E1" font-size="25">Send work from any compatible harness.</text>
+    <text x="0" y="160" fill="#CBD5E1" font-size="25">Keep the exact workspace, model, and session.</text>
+  </g>
+  <g transform="translate(748 105)">
+    <rect width="394" height="270" rx="22" fill="#0A1220" stroke="#334155" stroke-width="2"/>
+    <g transform="translate(275 22)" color="#D97757"><svg width="88" height="88" viewBox="0 0 24 24" fill="currentColor"><title>Anthropic</title><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg></g>
+    <text x="26" y="51" fill="#94A3B8" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="17">ROUTE</text>
+    <text x="26" y="84" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="29" font-weight="700">Claude Code</text>
+    <path d="M50 164H344" stroke="url(#trace)" stroke-width="4" stroke-linecap="round"/>
+    <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="17" text-anchor="middle">
+      <circle cx="50" cy="164" r="9" fill="#F3B49F"/><text x="50" y="202" fill="#CBD5E1">any harness</text>
+      <circle cx="197" cy="164" r="9" fill="#F8FAFC"/><text x="197" y="202" fill="#CBD5E1">adapter</text>
+      <circle cx="344" cy="164" r="9" fill="#D97757"/><text x="344" y="202" fill="#CBD5E1">exact session</text>
+    </g>
+    <text x="197" y="246" text-anchor="middle" fill="#F3B49F" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="17">STATUS · INVOKE · SMOKE TEST</text>
+  </g>
+</svg>

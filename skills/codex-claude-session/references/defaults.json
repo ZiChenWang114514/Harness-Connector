@@ -1,0 +1,6 @@
+{
+  "invoke_timeout_seconds": 600,
+  "deepseek_base_url": "https://api.deepseek.com/anthropic",
+  "deepseek_primary_model": "deepseek-v4-pro[1m]",
+  "deepseek_fast_model": "deepseek-v4-flash"
+}

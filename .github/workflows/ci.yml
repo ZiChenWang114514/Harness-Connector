@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  aggregate:
+    name: Aggregate contract
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Audit plugin and skills
+        run: python tools/audit_skills.py
+      - name: Verify generated catalog
+        run: python tools/generate_catalog.py --check
+      - name: Compile Python sources
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem -Recurse -File -Filter *.py | Select-Object -ExpandProperty FullName
+          python -m py_compile $files
+      - name: Run aggregate tests
+        run: python -m unittest discover -s tests -v
+
+  skill-tests:
+    name: ${{ matrix.skill }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        skill:
+          - codex-opencode-session
+          - codex-grok-build
+          - codex-kimi-session
+          - codex-zcode-session
+          - codex-dsh-session
+          - codex-cli-session
+          - codex-claude-session
+          - codex-pi-session
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run adapter tests
+        shell: pwsh
+        run: python -m unittest discover -s "skills/${{ matrix.skill }}/tests" -v

@@ -1,0 +1,308 @@
+#!/usr/bin/env python3
+"""Small, credential-safe wrapper for zcode-app-cli headless sessions."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+from pathlib import Path
+import shutil
+import sqlite3
+import subprocess
+import sys
+import tempfile
+
+SKILL_DIR = Path(__file__).resolve().parents[1]
+DEFAULTS = json.loads((SKILL_DIR / "references" / "defaults.json").read_text(encoding="utf-8"))
+
+
+def zcode_home(env: dict[str, str] | None = None) -> Path:
+    source = env or os.environ
+    return Path(source.get("ZCODE_HOME", str(Path.home() / ".zcode"))).expanduser()
+
+
+def config_path(env: dict[str, str] | None = None) -> Path:
+    return zcode_home(env) / "cli" / "config.json"
+
+
+def load_config(path: Path | None = None) -> dict:
+    target = path or config_path()
+    if not target.is_file():
+        return {}
+    try:
+        return json.loads(target.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def configured(config: dict) -> bool:
+    for provider in config.get("provider", {}).values():
+        options = provider.get("options", {}) if isinstance(provider, dict) else {}
+        if isinstance(options, dict) and bool(options.get("apiKey")):
+            return True
+    return bool(os.environ.get("ZCODE_API_KEY"))
+
+
+def select_main_model(config: dict, model: str) -> dict:
+    config.setdefault("model", {})["main"] = model
+    return config
+
+
+def catalog(config: dict) -> tuple[list[str], list[str]]:
+    models: list[str] = []
+    multimodal: list[str] = []
+    for provider_id, provider in config.get("provider", {}).items():
+        for model_id, meta in (provider.get("models", {}) or {}).items():
+            full_id = f"{provider_id}/{model_id}"
+            models.append(full_id)
+            inputs = (meta.get("modalities", {}) or {}).get("input", []) if isinstance(meta, dict) else []
+            if isinstance(meta, dict) and (meta.get("attachment") or meta.get("supportsImages") or "image" in inputs):
+                multimodal.append(full_id)
+    return sorted(models), sorted(multimodal)
+
+
+def command_version(executable: str) -> str | None:
+    try:
+        result = subprocess.run(zcode_command(executable) + ["--version"], text=True, capture_output=True, timeout=20)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return result.stdout.strip() or result.stderr.strip() or None
+
+
+def zcode_command(executable: str) -> list[str]:
+    """Call the Node entry point directly on Windows so multiline prompts stay intact."""
+    executable_path = Path(executable)
+    if os.name == "nt" and executable_path.suffix.lower() in {".cmd", ".bat"}:
+        entry_point = executable_path.parent / "node_modules" / "zcode-app-cli" / "bin" / "zcode.js"
+        node = shutil.which("node")
+        if node and entry_point.is_file():
+            return [node, str(entry_point)]
+    return [executable]
+
+
+def model_usage(session_id: str | None, env: dict[str, str] | None = None) -> dict | None:
+    if not session_id:
+        return None
+    database = zcode_home(env) / "cli" / "db" / "db.sqlite"
+    if not database.is_file():
+        return None
+    try:
+        connection = sqlite3.connect(f"file:{database.as_posix()}?mode=ro", uri=True)
+        row = connection.execute(
+            """SELECT provider_id, model_id, status, retry_count, error_type, error_code
+               FROM model_usage WHERE session_id = ? ORDER BY started_at DESC LIMIT 1""",
+            (session_id,),
+        ).fetchone()
+        connection.close()
+    except sqlite3.Error:
+        return None
+    if not row:
+        return None
+    return {
+        "provider": row[0],
+        "actual_model": f"{row[0]}/{row[1]}",
+        "model_status": row[2],
+        "model_retry_count": row[3],
+        "model_error_type": row[4],
+        "model_error_code": row[5],
+    }
+
+
+def status() -> dict:
+    executable = shutil.which("zcode")
+    cfg_path = config_path()
+    cfg = load_config(cfg_path)
+    models, multimodal = catalog(cfg)
+    model_block = cfg.get("model", {}) if isinstance(cfg.get("model", {}), dict) else {}
+    return {
+        "installed": bool(executable),
+        "executable": executable,
+        "version": command_version(executable) if executable else None,
+        "zcode_home": str(zcode_home()),
+        "config_path": str(cfg_path),
+        "config_valid": bool(cfg),
+        "main_model": model_block.get("main"),
+        "lite_model": model_block.get("lite"),
+        "models": models,
+        "multimodal_models": multimodal,
+        "required_models_present": all(item in models for item in DEFAULTS["compatible_models"]),
+        "model_access_configured": configured(cfg),
+        "setup_pending": (cfg_path.parent / "setup-pending").exists(),
+        "session_db_exists": (zcode_home() / "cli" / "db" / "db.sqlite").is_file(),
+    }
+
+
+def read_prompt(args: argparse.Namespace) -> str:
+    if args.prompt_file:
+        return Path(args.prompt_file).read_text(encoding="utf-8")
+    if args.prompt:
+        return args.prompt
+    raise ValueError("provide --prompt or --prompt-file")
+
+
+def terminate_owned_process(process: subprocess.Popen[str]) -> None:
+    if process.poll() is not None:
+        return
+    if os.name == "nt":
+        subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"], capture_output=True)
+    else:
+        process.kill()
+
+
+def invoke_raw(directory: Path, prompt: str, mode: str, timeout: int,
+               session_id: str | None = None, env: dict[str, str] | None = None) -> dict:
+    executable = shutil.which("zcode")
+    if not executable:
+        return {"ok": False, "error": "zcode_not_found"}
+    command = zcode_command(executable) + [
+        "--prompt", prompt, "--cwd", str(directory), "--mode", mode, "--json", "--no-color"
+    ]
+    if session_id:
+        if not session_id.startswith("sess_"):
+            return {"ok": False, "error": "invalid_session_id"}
+        command.extend(["--resume", session_id])
+    process = subprocess.Popen(command, cwd=directory, env=env, text=True, encoding="utf-8",
+                               errors="replace", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        terminate_owned_process(process)
+        stdout, stderr = process.communicate()
+        return {"ok": False, "error": "timeout", "pid": process.pid,
+                "stdout": stdout.strip(), "stderr": stderr.strip()}
+    parsed = None
+    try:
+        parsed = json.loads(stdout) if stdout.strip() else None
+    except json.JSONDecodeError:
+        pass
+    returned_session = session_id
+    if isinstance(parsed, dict):
+        returned_session = returned_session or parsed.get("session_id") or parsed.get("sessionId")
+    usage = model_usage(returned_session, env) or {}
+    return {"ok": process.returncode == 0, "exit_code": process.returncode, "pid": process.pid,
+            "session_id": returned_session, "result": parsed,
+            "stdout": stdout.strip() if parsed is None else None,
+            "stderr": stderr.strip() or None, **usage}
+
+
+def invoke(directory: Path, prompt: str, mode: str, timeout: int,
+           session_id: str | None = None, model: str | None = None) -> dict:
+    cfg = load_config()
+    selected_model = (cfg.get("model", {}) or {}).get("main")
+    requested_model = model or selected_model
+    if model and not session_id and model != selected_model:
+        return {
+            "ok": False,
+            "error": "requested_model_not_selected",
+            "requested_model": model,
+            "selected_model": selected_model,
+            "directory": str(directory),
+        }
+    result = invoke_raw(directory, prompt, mode, timeout, session_id)
+    result["directory"] = str(directory)
+    result["requested_model"] = requested_model
+    actual_model = result.get("actual_model")
+    if result.get("ok") and actual_model and requested_model and actual_model != requested_model:
+        result["ok"] = False
+        result["error"] = "model_mismatch"
+    return result
+
+
+def smoke_test(directory: Path, timeout: int, model: str | None = None) -> dict:
+    cfg = load_config()
+    if not configured(cfg):
+        return {"ok": False, "error": "model_access_not_configured"}
+    with tempfile.TemporaryDirectory(prefix="codex-zcode-smoke-") as temp:
+        temp_home = Path(temp) / ".zcode"
+        target = temp_home / "cli" / "config.json"
+        target.parent.mkdir(parents=True)
+        shutil.copy2(config_path(), target)
+        if model:
+            isolated_config = load_config(target)
+            select_main_model(isolated_config, model)
+            target.write_text(json.dumps(isolated_config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        env = os.environ.copy()
+        env["ZCODE_HOME"] = str(temp_home)
+        result = invoke_raw(directory, f'Reply exactly {DEFAULTS["smoke_reply"]}', "plan", timeout, env=env)
+        output = json.dumps(result.get("result"), ensure_ascii=False) if result.get("result") else (result.get("stdout") or "")
+        result["expected_reply_found"] = DEFAULTS["smoke_reply"] in output
+        result["isolated_home"] = True
+        result["requested_model"] = model or cfg.get("model", {}).get("main")
+        result["directory"] = str(directory)
+        actual_model = result.get("actual_model")
+        result["ok"] = bool(
+            result.get("ok") and result["expected_reply_found"]
+            and actual_model == result["requested_model"]
+        )
+        if not actual_model:
+            result["error"] = "actual_model_unavailable"
+        elif actual_model != result["requested_model"]:
+            result["error"] = "model_mismatch"
+        return result
+
+
+def emit(payload: dict, as_json: bool) -> None:
+    if as_json:
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+    else:
+        for key, value in payload.items():
+            print(f"{key}: {value}")
+
+
+def any_to_payload(payload: dict, command: str) -> dict:
+    result = dict(payload)
+    result.setdefault("schema_version", 1)
+    result.setdefault("target", "zcode")
+    result.setdefault("command", command)
+    actual_model = result.get("actual_model") or result.get("model")
+    provider = result.get("provider")
+    if not provider and isinstance(actual_model, str) and "/" in actual_model:
+        provider = actual_model.split("/", 1)[0]
+    result["provider"] = provider or "zai"
+    result.setdefault("workdir", result.get("directory"))
+    result.setdefault("session_id", result.get("session_id"))
+    result.setdefault("requested_model", result.get("requested_model") or result.get("main_model"))
+    result.setdefault("actual_model", actual_model)
+    result.setdefault("result", result.get("result"))
+    result.setdefault("warnings", [])
+    result.setdefault("error", None)
+    return result
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    sub = parser.add_subparsers(dest="command", required=True)
+    p_status = sub.add_parser("status")
+    p_status.add_argument("--json", action="store_true")
+    for name in ("invoke", "smoke-test"):
+        p = sub.add_parser(name)
+        p.add_argument("--dir", "--workdir", dest="dir", required=True)
+        p.add_argument("--timeout", type=int, default=DEFAULTS["smoke_timeout_seconds"] if name == "smoke-test" else DEFAULTS["invoke_timeout_seconds"])
+        p.add_argument("--json", action="store_true")
+        p.add_argument("--model")
+        if name == "invoke":
+            group = p.add_mutually_exclusive_group(required=True)
+            group.add_argument("--prompt")
+            group.add_argument("--prompt-file")
+            p.add_argument("--mode", choices=("build", "edit", "plan", "yolo"), default="build")
+            p.add_argument("--session-id")
+    args = parser.parse_args()
+    if args.command == "status":
+        payload = status()
+    else:
+        directory = Path(args.dir).resolve()
+        if not directory.is_dir():
+            payload = {"ok": False, "error": "directory_not_found", "directory": str(directory)}
+        elif args.command == "smoke-test":
+            payload = smoke_test(directory, args.timeout, args.model)
+        else:
+            payload = invoke(directory, read_prompt(args), args.mode, args.timeout, args.session_id, args.model)
+    if args.json:
+        payload = any_to_payload(payload, args.command)
+    emit(payload, args.json)
+    return 0 if payload.get("ok", payload.get("installed", False)) else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

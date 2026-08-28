@@ -1,0 +1,8 @@
+{
+  "default_model": "deepseek-v4-flash",
+  "supported_models": ["deepseek-v4-pro", "deepseek-v4-flash", "deepseek-v4-flash-vision-exp"],
+  "vision_model": "deepseek-v4-flash-vision-exp",
+  "invoke_timeout_seconds": 900,
+  "smoke_timeout_seconds": 240,
+  "smoke_reply": "DSH_SMOKE_OK"
+}

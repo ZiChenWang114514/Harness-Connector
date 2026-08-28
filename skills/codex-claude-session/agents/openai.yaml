@@ -1,0 +1,6 @@
+interface:
+  display_name: "Claude Code Session"
+  short_description: "Run Claude Code with official or DeepSeek access"
+  default_prompt: "Use $codex-claude-session to run this task in the specified workspace."
+policy:
+  allow_implicit_invocation: true

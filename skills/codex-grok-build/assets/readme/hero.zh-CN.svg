@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="title desc">
+  <title id="title">Any-to-Grok-Build</title>
+  <desc id="desc">把任意兼容的编码助手接到本机 Grok Build 会话。</desc>
+  <defs>
+    <clipPath id="capsule-clip">
+      <rect x="20" y="20" width="1160" height="300" rx="150"/>
+    </clipPath>
+    <pattern id="session-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#1B2A38" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="session-trace" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38BDF8"/>
+      <stop offset="0.68" stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#A3E635"/>
+    </linearGradient>
+  </defs>
+
+  <g clip-path="url(#capsule-clip)">
+    <rect x="20" y="20" width="1160" height="300" fill="#080B10"/>
+    <rect x="20" y="20" width="1160" height="300" fill="url(#session-grid)" opacity="0.58"/>
+    <circle cx="80" cy="170" r="150" fill="#0B2030" opacity="0.65"/>
+    <circle cx="1120" cy="170" r="150" fill="#13220B" opacity="0.55"/>
+  </g>
+  <rect x="20" y="20" width="1160" height="300" rx="150" fill="none" stroke="#263A4B" stroke-width="2"/>
+
+  <text x="600" y="76" fill="#7DD3FC" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="18" letter-spacing="2.4">HARNESS INTERCONNECT · GROK BUILD</text>
+  <text x="600" y="145" fill="#F4F4F0" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Microsoft YaHei, PingFang SC, sans-serif" font-size="58" font-weight="760">Grok Build 会话</text>
+  <text x="600" y="186" fill="#A9B3C1" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Microsoft YaHei, PingFang SC, sans-serif" font-size="23">把任意兼容的编码助手接到本机 Grok Build</text>
+
+  <path d="M360 238H840" stroke="url(#session-trace)" stroke-width="3"/>
+  <g font-family="ui-monospace, SFMono-Regular, Consolas, Microsoft YaHei, PingFang SC, monospace" font-size="17" text-anchor="middle">
+    <circle cx="360" cy="238" r="8" fill="#38BDF8"/>
+    <text x="360" y="274" fill="#B8C4D2">调用</text>
+    <circle cx="520" cy="238" r="8" fill="#38BDF8"/>
+    <text x="520" y="274" fill="#B8C4D2">观察</text>
+    <circle cx="680" cy="238" r="8" fill="#FBBF24"/>
+    <text x="680" y="274" fill="#B8C4D2">压缩</text>
+    <circle cx="840" cy="238" r="8" fill="#A3E635"/>
+    <text x="840" y="274" fill="#D9F99D">验证</text>
+  </g>
+</svg>

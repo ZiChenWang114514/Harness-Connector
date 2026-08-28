@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="720" viewBox="0 0 720 720" role="img" aria-labelledby="title desc">
+  <title id="title">Any-to-Claude-Code</title><desc id="desc">Any compatible harness connects to an exact Claude Code session.</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#070B12"/><stop offset="1" stop-color="#111827"/></linearGradient></defs>
+  <rect width="720" height="720" rx="30" fill="url(#bg)"/>
+  <g transform="translate(548 54)" color="#D97757"><svg width="108" height="108" viewBox="0 0 24 24" fill="currentColor"><title>Anthropic</title><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg></g>
+  <g transform="translate(54 62)" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">
+    <text x="0" y="0" fill="#9CA3AF" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="20">ANY-TO HARNESS ADAPTER</text>
+    <text x="0" y="94" fill="#F8FAFC" font-size="58" font-weight="760">Any-to</text>
+    <text x="0" y="160" fill="#D97757" font-size="58" font-weight="760">Claude Code</text>
+    <text x="0" y="214" fill="#CBD5E1" font-size="25">Any harness. Exact session.</text>
+  </g>
+  <g transform="translate(54 328)">
+    <rect width="612" height="300" rx="24" fill="#0A1220" stroke="#334155" stroke-width="2"/>
+    <path d="M100 76V225" stroke="#F3B49F" stroke-width="4" stroke-linecap="round"/>
+    <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="22">
+      <circle cx="100" cy="76" r="11" fill="#F3B49F"/><text x="138" y="84" fill="#F8FAFC">any compatible harness</text>
+      <circle cx="100" cy="151" r="11" fill="#F8FAFC"/><text x="138" y="159" fill="#F8FAFC">Python adapter</text>
+      <circle cx="100" cy="225" r="11" fill="#D97757"/><text x="138" y="233" fill="#F8FAFC">Claude Code session</text>
+      <text x="306" y="278" text-anchor="middle" fill="#D97757" font-size="18">OFFICIAL SUBSCRIPTION · DEEPSEEK V4</text>
+    </g>
+  </g>
+</svg>

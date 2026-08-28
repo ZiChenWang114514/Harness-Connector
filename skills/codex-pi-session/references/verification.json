@@ -1,0 +1,12 @@
+{
+  "verified_at": "2026-08-28T18:35:36+08:00",
+  "cli_version": "0.84.3",
+  "status": "passed",
+  "provider": "openai-codex",
+  "requested_model": "gpt-5.6-luna",
+  "actual_model": "gpt-5.6-luna",
+  "new_session": true,
+  "exact_session_resume": true,
+  "fork": true,
+  "isolated_git_workspace": true
+}

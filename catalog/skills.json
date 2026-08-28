@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "plugin": "harness-connector",
+  "skills": [
+    {
+      "skill_id": "codex-opencode-session",
+      "target": "OpenCode",
+      "source_repository": "ZiChenWang114514/Any-to-OpenCode",
+      "source_commit": "b9d6c89f1e62cc0052b77ad2c046b6604cf9ca48",
+      "main_script": "scripts/opencode_session.py",
+      "commands": ["status", "free-pool", "invoke", "smoke-test"],
+      "verification": {"status": "source-recorded", "summary": "Imported from the verified local Skill snapshot and source project."}
+    },
+    {
+      "skill_id": "codex-grok-build",
+      "target": "Grok Build",
+      "source_repository": "ZiChenWang114514/Any-to-Grok-Build",
+      "source_commit": "e18d10c65180f5ad8fcbf851b458ce926b59d0f2",
+      "main_script": "scripts/grok_session.py",
+      "commands": ["status", "list", "inspect", "wait", "invoke", "smoke-test"],
+      "verification": {"status": "source-recorded", "summary": "Imported from the verified local Skill snapshot and source project."}
+    },
+    {
+      "skill_id": "codex-kimi-session",
+      "target": "Kimi Code",
+      "source_repository": "ZiChenWang114514/Any-to-Kimi-Code",
+      "source_commit": "f7f1dddfa8aa7ea05d5b6203a1b13344779d5f8b",
+      "main_script": "scripts/kimi_session.py",
+      "commands": ["status", "inspect", "invoke", "smoke-test"],
+      "verification": {"status": "source-recorded", "summary": "Imported from the verified local Skill snapshot and source project."}
+    },
+    {
+      "skill_id": "codex-zcode-session",
+      "target": "ZCode",
+      "source_repository": "ZiChenWang114514/Any-to-ZCode",
+      "source_commit": "497f678de9544f70987052d4589e75bb506a3e4b",
+      "main_script": "scripts/zcode_session.py",
+      "commands": ["status", "invoke", "smoke-test"],
+      "verification": {"status": "local-real-smoke", "summary": "Includes the verified GLM-5-Turbo multiline-prompt and isolated ZCODE_HOME update."}
+    },
+    {
+      "skill_id": "codex-dsh-session",
+      "target": "DeepSeek Harness",
+      "source_repository": "ZiChenWang114514/Any-to-DeepSeek-Harness",
+      "source_commit": "a6d99e6ca57e885f67555d1105572115f1f6912b",
+      "main_script": "scripts/dsh_session.py",
+      "commands": ["status", "invoke", "smoke-test"],
+      "verification": {"status": "source-recorded", "summary": "Imported from the verified local Skill snapshot and source project."}
+    },
+    {
+      "skill_id": "codex-cli-session",
+      "target": "Codex CLI",
+      "source_repository": "ZiChenWang114514/Any-to-Codex",
+      "source_commit": "adff954419a8042d391bdf2fdd14aa02e06ddc28",
+      "main_script": "scripts/codex_session.py",
+      "commands": ["status", "invoke", "resume", "fork", "smoke-test"],
+      "verification": {"status": "source-recorded", "summary": "Imported from the verified local Skill snapshot and source project."}
+    },
+    {
+      "skill_id": "codex-claude-session",
+      "target": "Claude Code",
+      "source_repository": "ZiChenWang114514/Any-to-Claude-Code",
+      "source_commit": "f8a476863d186512fb4c784cea5dc18547f6ae0a",
+      "main_script": "scripts/claude_session.py",
+      "commands": ["status", "invoke", "resume", "smoke-test"],
+      "verification": {"status": "source-recorded", "summary": "Imported from the verified local Skill snapshot and source project."}
+    },
+    {
+      "skill_id": "codex-pi-session",
+      "target": "Pi",
+      "source_repository": "ZiChenWang114514/Any-to-Pi",
+      "source_commit": "7306fe198ef3ea77b4c444fadcfb73d57babee45",
+      "main_script": "scripts/pi_session.py",
+      "commands": ["status", "invoke", "resume", "fork", "smoke-test"],
+      "verification": {"status": "source-recorded", "summary": "Imported from the local Skill snapshot after its GPT-5.6 Luna smoke test."}
+    }
+  ]
+}

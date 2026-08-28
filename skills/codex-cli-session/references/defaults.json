@@ -1,0 +1,4 @@
+{
+  "invoke_timeout_seconds": 600,
+  "smoke_reply": "ANY_TO_CODEX_NEW"
+}

@@ -1,0 +1,14 @@
+{
+  "verified_at": "2026-08-28T17:16:56+08:00",
+  "cli_version": "0.39.0",
+  "status": "passed",
+  "models": [
+    "kimi-code/k3",
+    "kimi-code/k3-256k",
+    "kimi-code/kimi-for-coding",
+    "kimi-code/kimi-for-coding-highspeed"
+  ],
+  "readonly_profile_checked": true,
+  "exact_session_resume": true,
+  "primary_session_index_unchanged": true
+}

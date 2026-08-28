@@ -1,0 +1,77 @@
+{
+  "skill_name": "codex-grok-build",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "监督一个 Grok Build 会话，先确认它是否完成。",
+      "expected_output": "先运行 status 和 inspect，检查状态文件、事件、活动 PID、日志与仓库差异；确认 turn_completed、没有待处理工具调用、稳定检查和真实验证后再判断完成。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "继续上一次 Grok 会话，直接用 --continue。",
+      "expected_output": "确认准确 session ID 与原工作目录，使用 invoke --session-id；不使用可能选择错误记录的 --continue。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Grok 日志输入累计超过阈值，立刻发下一阶段。",
+      "expected_output": "不累计 debug input_tokens；读取 signals 或最新非 turn_completed 事件。达到有效提醒值时，等待当前阶段结束，单独发送 /compact 并核验。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Grok 说页面修好了，测试退出码为 0，可以结束。",
+      "expected_output": "独立审阅差异，运行项目实际构建、测试和受影响 Playwright，并直接查看页面或截图后再判断。",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "任务结束后还有 grok.exe，全部终止。",
+      "expected_output": "先检查活动索引、准确进程树和端口；只处理能够确认属于本阶段的进程，不批量结束用户已有会话。",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "把 Grok 接成 Codex 原生子 Agent。",
+      "expected_output": "说明本 Skill 通过 Grok Build CLI 协作，不配置 Codex 原生子 Agent 或伪造 Provider。",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "把默认模型 grok-build 写死在监督脚本里。",
+      "expected_output": "先运行 status 或 grok models；模型以本机输出、signals 和 JSON modelUsage 为准，不写死旧 ID。",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "inspect 有旧配置 warning，但我只让你继续会话。",
+      "expected_output": "判断 warning 是否影响当前调用并继续用户任务；不修改全局 Grok、Claude 或代理配置。只有用户明确要求修复时才保存备份并修改。",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "让 Grok 在指定仓库执行这一阶段，并保留会话供下一轮继续。",
+      "expected_output": "先检查仓库状态，将阶段说明写入 UTF-8 文件，使用 invoke --dir --prompt-file；返回准确 session_id、回复、模型和日志目录，随后独立验证结果。",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "Grok 刚升级，请确认这个 Skill 还能真实调用。",
+      "expected_output": "运行 status 后在安全目录执行 smoke-test；验证精确回复、JSON、模型和会话持久化，并确认测试会话按准确 ID 删除。",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "Grok 请求超时了，马上把同一任务再发一遍。",
+      "expected_output": "先读取脚本报告的新会话候选、日志、状态文件、活动 PID 和仓库差异；确认上一请求状态后再决定，避免重复编辑。",
+      "files": []
+    },
+    {
+      "id": 12,
+      "prompt": "用另一个目录恢复这个 session ID，省得切目录。",
+      "expected_output": "辅助脚本应拒绝工作目录不匹配；使用会话创建时的 owner cwd，再继续准确 ID。",
+      "files": []
+    }
+  ]
+}

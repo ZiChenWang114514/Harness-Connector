@@ -1,0 +1,6 @@
+{
+  "request_timeout_seconds": 1800,
+  "max_prompt_characters": 24000,
+  "smoke_test_reply": "KIMI_SESSION_OK",
+  "readonly_agent_file": "references/kimi-readonly-agent.md"
+}

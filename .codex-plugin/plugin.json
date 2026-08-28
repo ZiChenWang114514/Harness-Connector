@@ -1,0 +1,32 @@
+{
+  "name": "harness-connector",
+  "version": "0.1.0",
+  "description": "Eight independently usable session skills for connecting compatible coding harnesses.",
+  "author": {
+    "name": "ZiChenWang114514",
+    "url": "https://github.com/ZiChenWang114514"
+  },
+  "homepage": "https://github.com/ZiChenWang114514/Harness-Connector",
+  "repository": "https://github.com/ZiChenWang114514/Harness-Connector",
+  "license": "MIT",
+  "keywords": [
+    "coding-agents",
+    "harness",
+    "session-management",
+    "skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Harness Connector",
+    "shortDescription": "Connect coding harnesses through reusable session skills.",
+    "longDescription": "A plugin-ready collection of eight independent session skills for OpenCode, Grok Build, Kimi Code, ZCode, DeepSeek Harness, Codex CLI, Claude Code, and Pi.",
+    "developerName": "ZiChenWang114514",
+    "category": "Developer Tools",
+    "capabilities": [
+      "CLI adapters",
+      "Session management",
+      "Structured JSON"
+    ],
+    "defaultPrompt": "Use the matching Harness Connector session skill to inspect, invoke, or continue a coding harness session."
+  }
+}
