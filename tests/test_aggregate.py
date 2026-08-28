@@ -52,7 +52,14 @@ class AggregateContractTests(unittest.TestCase):
                 self.assertIn("usage", result.stdout.lower())
 
     def test_no_generated_bytecode(self) -> None:
-        self.assertEqual([], list(ROOT.rglob("*.pyc")))
+        result = subprocess.run(
+            ["git", "ls-files", "*.pyc"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual("", result.stdout.strip())
 
 
 if __name__ == "__main__":

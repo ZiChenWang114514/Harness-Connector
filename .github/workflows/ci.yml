@@ -15,8 +15,8 @@ jobs:
     name: Aggregate contract
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: Audit plugin and skills
@@ -26,6 +26,7 @@ jobs:
       - name: Compile Python sources
         shell: pwsh
         run: |
+          $env:PYTHONPYCACHEPREFIX = Join-Path $env:RUNNER_TEMP "harness-connector-pycache"
           $files = Get-ChildItem -Recurse -File -Filter *.py | Select-Object -ExpandProperty FullName
           python -m py_compile $files
       - name: Run aggregate tests
@@ -47,8 +48,8 @@ jobs:
           - codex-claude-session
           - codex-pi-session
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: Run adapter tests
