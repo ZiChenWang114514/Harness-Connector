@@ -62,13 +62,14 @@ def node(x: int, y: int, size: int, logo_uri: str, label: str, label_y: int | No
             'font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" '
             f'font-size="18" font-weight="600" fill="#DCE9F7">{label}</text>'
         )
-    return f"""
+    rendered = f"""
     <g aria-label="{label}">
       <circle cx="{x + size / 2:g}" cy="{y + size / 2:g}" r="{size / 2:g}" fill="#07111F" fill-opacity=".84" stroke="#B8D8F5" stroke-opacity=".42" stroke-width="1.5"/>
       <circle cx="{x + size / 2:g}" cy="{y + size / 2:g}" r="{size / 2 - 5:g}" fill="none" stroke="#64E6C4" stroke-opacity=".18"/>
       <image href="{logo_uri}" x="{x + inner}" y="{y + inner}" width="{logo_size}" height="{logo_size}" preserveAspectRatio="xMidYMid meet"/>
       {label_svg}
     </g>"""
+    return "\n".join(line.rstrip() for line in rendered.splitlines())
 
 
 def connections(points: list[tuple[int, int]], core: tuple[int, int]) -> str:
