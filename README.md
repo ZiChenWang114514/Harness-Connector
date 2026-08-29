@@ -1,26 +1,19 @@
-<div align="center">
+<p align="center">
+  <picture>
+    <source media="(max-width: 640px)" srcset="assets/readme/hero-mobile.svg">
+    <img src="assets/readme/hero.svg" width="100%" alt="Harness Connector links eight independent coding harness session skills to exact CLI workdirs, models, and sessions.">
+  </picture>
+</p>
 
-# Harness Connector
-
-**Eight independent session skills. One plugin-ready engineering home.**
-
-[![CI](https://github.com/ZiChenWang114514/Harness-Connector/actions/workflows/ci.yml/badge.svg)](https://github.com/ZiChenWang114514/Harness-Connector/actions/workflows/ci.yml)
-[![Skills](https://img.shields.io/badge/session_skills-8-2563eb)](skills/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-16a34a)](LICENSE)
-
-[简体中文](README.zh-CN.md)
-
-</div>
+<p align="center">
+  <a href="https://github.com/ZiChenWang114514/Harness-Connector/actions/workflows/ci.yml"><img src="https://github.com/ZiChenWang114514/Harness-Connector/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  <a href="skills/"><img src="https://img.shields.io/badge/session_skills-8-5BA8FF" alt="8 session skills"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-64E6C4" alt="MIT License"></a>
+  <br>
+  <a href="README.zh-CN.md">简体中文</a>
+</p>
 
 Harness Connector collects eight proven coding-harness session skills without merging their runtimes. Each skill keeps its own CLI adapter, session rules, model checks, documentation, tests, and original invocation name. You may copy one skill by itself or treat the repository as a complete Codex plugin package.
-
-## Why this repository exists
-
-- **Independent by design:** a change for ZCode cannot silently alter Pi, Claude Code, or another adapter.
-- **Compatible paths and commands:** the eight existing Skill IDs and command-line interfaces remain intact.
-- **Auditable imports:** every snapshot records its public source repository and exact `main` commit.
-- **Repeatable maintenance:** local tooling checks structure, regenerates the catalog, and reports upstream changes.
-- **Credential-free publication:** CI uses unit tests and simulated subprocesses; live model credentials stay outside the repository.
 
 ## Skill catalog
 
@@ -38,6 +31,14 @@ Harness Connector collects eight proven coding-harness session skills without me
 <!-- skill-matrix:end -->
 
 Verification labels describe evidence imported from each source project. This initial aggregation does not make fresh billable model calls.
+
+## Why this repository exists
+
+- **Independent by design:** a change for ZCode cannot silently alter Pi, Claude Code, or another adapter.
+- **Compatible paths and commands:** the eight existing Skill IDs and command-line interfaces remain intact.
+- **Auditable imports:** every snapshot records its public source repository and exact `main` commit.
+- **Repeatable maintenance:** local tooling checks structure, regenerates the catalog, and reports upstream changes.
+- **Credential-free publication:** CI uses unit tests and simulated subprocesses; live model credentials stay outside the repository.
 
 ## Repository layout
 

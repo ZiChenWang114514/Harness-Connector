@@ -1,26 +1,19 @@
-<div align="center">
+<p align="center">
+  <picture>
+    <source media="(max-width: 640px)" srcset="assets/readme/hero-mobile.svg">
+    <img src="assets/readme/hero.svg" width="100%" alt="Harness Connector 将八个独立的编码 Harness 会话 Skill 连接到准确的 CLI 工作目录、模型和会话。">
+  </picture>
+</p>
 
-# Harness Connector
-
-**八个独立的会话 Skill，共用一套可验证的插件工程。**
-
-[![CI](https://github.com/ZiChenWang114514/Harness-Connector/actions/workflows/ci.yml/badge.svg)](https://github.com/ZiChenWang114514/Harness-Connector/actions/workflows/ci.yml)
-[![Skills](https://img.shields.io/badge/session_skills-8-2563eb)](skills/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-16a34a)](LICENSE)
-
-[English](README.md)
-
-</div>
+<p align="center">
+  <a href="https://github.com/ZiChenWang114514/Harness-Connector/actions/workflows/ci.yml"><img src="https://github.com/ZiChenWang114514/Harness-Connector/actions/workflows/ci.yml/badge.svg" alt="CI 状态"></a>
+  <a href="skills/"><img src="https://img.shields.io/badge/session_skills-8-5BA8FF" alt="8 个会话 Skill"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-64E6C4" alt="MIT 许可证"></a>
+  <br>
+  <a href="README.md">English</a>
+</p>
 
 Harness Connector 汇集八个已经投入使用的编码 Harness 会话 Skill，同时保留各自独立的运行脚本、会话规则、模型检查、文档、测试与调用名称。你可以单独复制一个 Skill，也可以把整个仓库作为 Codex 插件包使用。
-
-## 项目价值
-
-- **保持独立：** ZCode 的调整不会悄然改变 Pi、Claude Code 或其他适配器。
-- **保持兼容：** 八个现有 Skill ID、命令与参数继续有效。
-- **来源清楚：** 每份快照都记录公开来源仓库及准确的 `main` 提交。
-- **维护可复现：** 工具可以检查目录、重新生成目录表，并报告来源仓库的新提交。
-- **不保存凭据：** CI 运行单元测试和模拟子进程；真实模型凭据始终位于仓库之外。
 
 ## Skill 目录
 
@@ -38,6 +31,14 @@ Harness Connector 汇集八个已经投入使用的编码 Harness 会话 Skill�
 <!-- skill-matrix:end -->
 
 验证标签描述从各来源项目导入的证据；本次首次聚合不会产生新的付费模型调用。
+
+## 项目价值
+
+- **保持独立：** ZCode 的调整不会悄然改变 Pi、Claude Code 或其他适配器。
+- **保持兼容：** 八个现有 Skill ID、命令与参数继续有效。
+- **来源清楚：** 每份快照都记录公开来源仓库及准确的 `main` 提交。
+- **维护可复现：** 工具可以检查目录、重新生成目录表，并报告来源仓库的新提交。
+- **不保存凭据：** CI 运行单元测试和模拟子进程；真实模型凭据始终位于仓库之外。
 
 ## 目录结构
 

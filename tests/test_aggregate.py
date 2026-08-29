@@ -4,6 +4,7 @@ import json
 import subprocess
 import sys
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
@@ -60,6 +61,19 @@ class AggregateContractTests(unittest.TestCase):
             text=True,
         )
         self.assertEqual("", result.stdout.strip())
+
+    def test_readme_heroes_are_self_contained(self) -> None:
+        expected = {"hero.svg": "0 0 1200 420", "hero-mobile.svg": "0 0 720 760"}
+        namespace = "{http://www.w3.org/2000/svg}"
+        for name, viewbox in expected.items():
+            with self.subTest(asset=name):
+                root = ET.parse(ROOT / "assets" / "readme" / name).getroot()
+                self.assertEqual(viewbox, root.attrib.get("viewBox"))
+                self.assertEqual(9, len(root.findall(f".//{namespace}image")))
+                self.assertEqual([], root.findall(f".//{namespace}script"))
+                self.assertEqual([], root.findall(f".//{namespace}foreignObject"))
+                for image in root.findall(f".//{namespace}image"):
+                    self.assertTrue(image.attrib.get("href", "").startswith("data:image/"))
 
 
 if __name__ == "__main__":
