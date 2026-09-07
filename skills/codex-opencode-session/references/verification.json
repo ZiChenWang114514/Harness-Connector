@@ -1,20 +1,11 @@
 {
-  "verified_at": "2026-08-28T17:16:56+08:00",
-  "cli_version": "1.18.23",
-  "status": "partial",
-  "discovered_zero_cost_models": 6,
-  "passed_models": [
-    "opencode/big-pickle",
-    "opencode/hy3-free",
-    "opencode/mimo-v2.5-free",
-    "opencode/muse-spark-1.2-contributor-free",
-    "opencode/nemotron-3-ultra-free"
-  ],
-  "failed_models": [
-    {
-      "model": "opencode/nemotron-3.5-lightning-free",
-      "result": "timed_out_twice"
-    }
-  ],
+  "verified_at": "2026-09-07T20:52:00+08:00",
+  "cli_version": "1.18.29",
+  "status": "passed",
+  "tested_model": "opencode-go/muse-spark-1.2-contributor",
+  "tested_agent": "plan",
+  "reply_verified": true,
+  "actual_model_verified": true,
+  "free_pool_note": "The historical multi-model free-pool result was not reused; availability must be refreshed before scheduling.",
   "test_sessions_deleted": true
 }

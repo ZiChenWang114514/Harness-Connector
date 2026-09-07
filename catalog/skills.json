@@ -6,7 +6,7 @@
       "skill_id": "codex-opencode-session",
       "target": "OpenCode",
       "source_repository": "ZiChenWang114514/Any-to-OpenCode",
-      "source_commit": "b9d6c89f1e62cc0052b77ad2c046b6604cf9ca48",
+      "source_commit": "0c25649487ea31ccfa0375bedb845005dc262447",
       "main_script": "scripts/opencode_session.py",
       "commands": [
         "status",
@@ -15,8 +15,8 @@
         "smoke-test"
       ],
       "verification": {
-        "status": "source-recorded",
-        "summary": "Imported from the verified local Skill snapshot and source project."
+        "status": "local-real-smoke",
+        "summary": "OpenCode 1.18.29 verified with a plan-agent reply, actual-model readback, and exact test-session cleanup."
       }
     },
     {
