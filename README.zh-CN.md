@@ -21,7 +21,7 @@ Harness Connector 汇集八个已经投入使用的编码 Harness 会话 Skill�
 | Skill | Target Harness | Commands | Source | Verification |
 |---|---|---|---|---|
 | [`$codex-opencode-session`](skills/codex-opencode-session/) | OpenCode | `status`, `free-pool`, `invoke`, `smoke-test` | [Any-to-OpenCode](https://github.com/ZiChenWang114514/Any-to-OpenCode) @ `0c256494` | `local-real-smoke` |
-| [`$codex-grok-build`](skills/codex-grok-build/) | Grok Build | `status`, `list`, `inspect`, `wait`, `invoke`, `smoke-test` | [Any-to-Grok-Build](https://github.com/ZiChenWang114514/Any-to-Grok-Build) @ `e18d10c6` | `source-recorded` |
+| [`$codex-grok-build`](skills/codex-grok-build/) | Grok Build | `status`, `list`, `inspect`, `wait`, `invoke`, `smoke-test` | [Any-to-Grok-Build](https://github.com/ZiChenWang114514/Any-to-Grok-Build) @ `70026ddc` | `local-real-smoke` |
 | [`$codex-kimi-session`](skills/codex-kimi-session/) | Kimi Code | `status`, `inspect`, `invoke`, `smoke-test` | [Any-to-Kimi-Code](https://github.com/ZiChenWang114514/Any-to-Kimi-Code) @ `f7f1dddf` | `source-recorded` |
 | [`$codex-zcode-session`](skills/codex-zcode-session/) | ZCode | `status`, `invoke`, `smoke-test` | [Any-to-ZCode](https://github.com/ZiChenWang114514/Any-to-ZCode) @ `497f678d` | `local-real-smoke` |
 | [`$codex-dsh-session`](skills/codex-dsh-session/) | DeepSeek Harness | `status`, `invoke`, `smoke-test` | [Any-to-DeepSeek-Harness](https://github.com/ZiChenWang114514/Any-to-DeepSeek-Harness) @ `a6d99e6c` | `source-recorded` |

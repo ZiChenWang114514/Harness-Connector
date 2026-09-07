@@ -23,7 +23,7 @@
       "skill_id": "codex-grok-build",
       "target": "Grok Build",
       "source_repository": "ZiChenWang114514/Any-to-Grok-Build",
-      "source_commit": "e18d10c65180f5ad8fcbf851b458ce926b59d0f2",
+      "source_commit": "70026ddc54f08a6012fb0d8a595328bc8ff6dea4",
       "main_script": "scripts/grok_session.py",
       "commands": [
         "status",
@@ -34,8 +34,8 @@
         "smoke-test"
       ],
       "verification": {
-        "status": "source-recorded",
-        "summary": "Imported from the verified local Skill snapshot and source project."
+        "status": "local-real-smoke",
+        "summary": "Grok Build 1.0.13 verified with grok-4.6-build reply, model readback, and exact session/log cleanup."
       }
     },
     {
