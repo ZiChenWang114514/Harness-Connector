@@ -18,6 +18,8 @@
 
 它使用用户现有的 ChatGPT 登录和 Codex 配置，不负责安装 Codex、复制凭据、改变全局模型或绕过 Codex 权限。
 
+在 Windows 上，适配器会优先选择可工作的原生 `codex.exe`，并在使用前逐个探测候选入口。这样可避免 npm `codex.cmd` 包装层存在、但其可选平台依赖缺失时被误判为可用；只有原生入口不可用时才回退到包装层。
+
 ## 先看实际状态
 
 ```powershell
@@ -115,8 +117,8 @@ python .\scripts\codex_session.py smoke-test --json
 | [Any-to-ZCode](https://github.com/ZiChenWang114514/Any-to-ZCode) | ZCode / GLM |
 | [Any-to-DeepSeek-Harness](https://github.com/ZiChenWang114514/Any-to-DeepSeek-Harness) | DeepSeek Harness |
 | [Any-to-Claude-Code](https://github.com/ZiChenWang114514/Any-to-Claude-Code) | Claude Code |
-| [Any-to-Claude-Code](https://github.com/ZiChenWang114514/Any-to-Claude-Code) | Claude Code |
-| [Any-to-Claude-Code](https://github.com/ZiChenWang114514/Any-to-Claude-Code) | Claude Code |
+| [Any-to-Pi](https://github.com/ZiChenWang114514/Any-to-Pi) | Pi |
+| [Any-to-Antigravity](https://github.com/ZiChenWang114514/Any-to-Antigravity) | Google Antigravity CLI |
 
 ## License
 

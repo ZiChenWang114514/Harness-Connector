@@ -18,6 +18,8 @@ Connect any compatible coding harness to the local Codex CLI. The adapter starts
 
 It uses the user's existing ChatGPT login and Codex configuration. It does not install Codex, copy credentials, choose a global model, or bypass Codex permissions.
 
+On Windows, the adapter prefers a working native `codex.exe` and probes each available launcher before use. This avoids treating an npm `codex.cmd` shim as healthy when its optional platform package is missing; the shim remains a fallback when it is the only working installation.
+
 ## Proof first
 
 ```powershell
@@ -115,8 +117,8 @@ Unit tests do not require credentials. The real smoke test creates a temporary G
 | [Any-to-ZCode](https://github.com/ZiChenWang114514/Any-to-ZCode) | ZCode / GLM |
 | [Any-to-DeepSeek-Harness](https://github.com/ZiChenWang114514/Any-to-DeepSeek-Harness) | DeepSeek Harness |
 | [Any-to-Claude-Code](https://github.com/ZiChenWang114514/Any-to-Claude-Code) | Claude Code |
-| [Any-to-Claude-Code](https://github.com/ZiChenWang114514/Any-to-Claude-Code) | Claude Code |
-| [Any-to-Claude-Code](https://github.com/ZiChenWang114514/Any-to-Claude-Code) | Claude Code |
+| [Any-to-Pi](https://github.com/ZiChenWang114514/Any-to-Pi) | Pi |
+| [Any-to-Antigravity](https://github.com/ZiChenWang114514/Any-to-Antigravity) | Google Antigravity CLI |
 
 ## License
 

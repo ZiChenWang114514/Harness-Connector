@@ -18,11 +18,43 @@ SCHEMA_VERSION = 1
 TARGET = "codex"
 
 
+def executable_candidates() -> list[str]:
+    """Return distinct Codex launchers in reliability order."""
+    names = ["codex.exe", "codex"] if os.name == "nt" else ["codex"]
+    found: list[str] = []
+    seen: set[str] = set()
+    for name in names:
+        value = shutil.which(name)
+        if not value:
+            continue
+        key = os.path.normcase(os.path.abspath(value))
+        if key not in seen:
+            seen.add(key)
+            found.append(value)
+    return found
+
+
+def resolve_executable() -> tuple[str, list[dict[str, Any]]]:
+    diagnostics: list[dict[str, Any]] = []
+    for value in executable_candidates():
+        try:
+            probe = run_text([value, "--version"], timeout=15)
+        except (OSError, subprocess.SubprocessError) as exc:
+            diagnostics.append({"executable": value, "ok": False,
+                                "error": type(exc).__name__})
+            continue
+        ok = probe.returncode == 0 and "codex" in probe.stdout.lower()
+        diagnostics.append({"executable": value, "ok": ok,
+                            "exit_code": probe.returncode})
+        if ok:
+            return value, diagnostics
+    if diagnostics:
+        raise RuntimeError("codex_launchers_unusable")
+    raise RuntimeError("codex_not_found")
+
+
 def executable() -> str:
-    value = shutil.which("codex")
-    if not value:
-        raise RuntimeError("codex_not_found")
-    return value
+    return resolve_executable()[0]
 
 
 def run_text(command: list[str], *, cwd: Path | None = None, timeout: int = 60) -> subprocess.CompletedProcess[str]:
@@ -119,7 +151,7 @@ def run_jsonl(command: list[str], *, cwd: Path | None, timeout: int) -> dict[str
 
 
 def status_payload() -> dict[str, Any]:
-    exe = executable()
+    exe, launcher_diagnostics = resolve_executable()
     version = run_text([exe, "--version"])
     login = run_text([exe, "login", "status"])
     help_result = run_text([exe, "exec", "--help"])
@@ -127,11 +159,12 @@ def status_payload() -> dict[str, Any]:
     required = ["--json", "--model", "--cd", "--output-schema", "--ephemeral"]
     support = {flag: flag in help_result.stdout for flag in required}
     ok = version.returncode == 0 and login.returncode == 0 and all(support.values())
+    login_status = (login.stdout.strip() or login.stderr.strip())
     return envelope(
         "status", ok=ok, requested_model=defaults["model"],
-        executable=exe, version=version.stdout.strip(), login_status=login.stdout.strip(),
+        executable=exe, version=version.stdout.strip(), login_status=login_status,
         logged_in=login.returncode == 0, reasoning_effort=defaults["reasoning_effort"],
-        required_flag_support=support,
+        required_flag_support=support, launcher_diagnostics=launcher_diagnostics,
     )
 
 
@@ -168,7 +201,8 @@ def execute_payload(args: argparse.Namespace) -> dict[str, Any]:
         session_id=session_id, requested_model=args.model,
         actual_model=raw.get("actual_model") or args.model,
         result=raw.get("message"), error=raw.get("error"), exit_code=raw.get("exit_code"),
-        stderr=raw.get("stderr"), event_count=len(raw.get("events", [])),
+        stderr=raw.get("stderr") if not raw["ok"] else None,
+        event_count=len(raw.get("events", [])),
     )
 
 
