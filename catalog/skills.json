@@ -42,7 +42,7 @@
       "skill_id": "codex-kimi-session",
       "target": "Kimi Code",
       "source_repository": "ZiChenWang114514/Any-to-Kimi-Code",
-      "source_commit": "f7f1dddfa8aa7ea05d5b6203a1b13344779d5f8b",
+      "source_commit": "2594056139bf76766624889f8bb71c8016cb7fc9",
       "main_script": "scripts/kimi_session.py",
       "commands": [
         "status",
@@ -51,8 +51,8 @@
         "smoke-test"
       ],
       "verification": {
-        "status": "source-recorded",
-        "summary": "Imported from the verified local Skill snapshot and source project."
+        "status": "local-real-smoke",
+        "summary": "Kimi Code 0.41.0 verified with readonly tools, k3-256k model readback, exact resume, and isolated cleanup."
       }
     },
     {

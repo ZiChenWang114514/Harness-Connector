@@ -1,5 +1,5 @@
 interface:
-  display_name: "Codex Kimi Session"
+  display_name: "Kimi Session"
   short_description: "连接、运行、继续并核验本机 Kimi Code 会话"
   default_prompt: "Use $codex-kimi-session to start a Kimi Code session for this project."
 policy:
