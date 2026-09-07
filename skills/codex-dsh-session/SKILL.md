@@ -34,7 +34,7 @@ python <skill-dir>\scripts\dsh_session.py invoke `
   --dir <repo> --prompt-file <prompt.txt> --json
 ```
 
-辅助脚本调用 `dsh --profile headless`，记录调用前后的会话目录，并返回本次新出现的会话 ID。headless profile 每次创建新 Agent；当前 CLI 没有提供 headless 精确继续参数。需要继续既有会话时，应在 TUI 或 Web profile 中使用准确会话 ID，不要用模糊的最近会话选择。
+辅助脚本调用 `dsh --profile headless`，记录调用前后的会话目录；仅当当前 CLI 实际持久化新条目时返回会话 ID。若成功回复但没有新条目，会返回 `headless_session_not_persisted` 警告。当前 CLI 没有提供 headless 精确继续参数。需要继续既有会话时，应在 TUI 或 Web profile 中使用准确会话 ID，不要用模糊的最近会话选择。
 
 当前默认模型来自 `$DSH_HOME/settings.yaml` 的 `agent-default-model`。模型变更影响之后创建的 Agent，不会改变已有会话的模型。
 

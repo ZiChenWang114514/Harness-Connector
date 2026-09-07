@@ -1,6 +1,6 @@
 {
-  "verified_at": "2026-08-28T18:35:36+08:00",
-  "cli_version": "0.84.3",
+  "verified_at": "2026-09-07T21:22:00+08:00",
+  "cli_version": "0.85.1",
   "status": "passed",
   "provider": "openai-codex",
   "requested_model": "gpt-5.6-luna",

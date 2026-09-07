@@ -123,6 +123,7 @@ Verified locally on 2026-08-28 with Pi `0.84.3`: new session, exact resume, and 
 | [Any-to-Codex](https://github.com/ZiChenWang114514/Any-to-Codex) | Codex CLI |
 | [Any-to-Claude-Code](https://github.com/ZiChenWang114514/Any-to-Claude-Code) | Claude Code |
 | [Any-to-Pi](https://github.com/ZiChenWang114514/Any-to-Pi) | Pi |
+| [Any-to-Antigravity](https://github.com/ZiChenWang114514/Any-to-Antigravity) | Google Antigravity CLI |
 
 ## License
 

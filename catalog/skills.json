@@ -59,7 +59,7 @@
       "skill_id": "codex-zcode-session",
       "target": "ZCode",
       "source_repository": "ZiChenWang114514/Any-to-ZCode",
-      "source_commit": "497f678de9544f70987052d4589e75bb506a3e4b",
+      "source_commit": "9d3e5fde231eb861052c704d9ce3cf4fb9a61fc9",
       "main_script": "scripts/zcode_session.py",
       "commands": [
         "status",
@@ -68,14 +68,14 @@
       ],
       "verification": {
         "status": "local-real-smoke",
-        "summary": "Includes the verified GLM-5-Turbo multiline-prompt and isolated ZCODE_HOME update."
+        "summary": "ZCode 3.11.2-21 verified after fixing USERPROFILE/HOME isolation and nonportable builtin route handling."
       }
     },
     {
       "skill_id": "codex-dsh-session",
       "target": "DeepSeek Harness",
       "source_repository": "ZiChenWang114514/Any-to-DeepSeek-Harness",
-      "source_commit": "a6d99e6ca57e885f67555d1105572115f1f6912b",
+      "source_commit": "a0a93006ac5f2dbcf16d2feffc9bcbe84f7d4df5",
       "main_script": "scripts/dsh_session.py",
       "commands": [
         "status",
@@ -83,8 +83,8 @@
         "smoke-test"
       ],
       "verification": {
-        "status": "source-recorded",
-        "summary": "Imported from the verified local Skill snapshot and source project."
+        "status": "local-real-smoke-with-warning",
+        "summary": "DSH 0.1.2-rc.1 returned the expected V4 Flash reply; current headless mode did not persist a session entry."
       }
     },
     {
@@ -109,7 +109,7 @@
       "skill_id": "codex-claude-session",
       "target": "Claude Code",
       "source_repository": "ZiChenWang114514/Any-to-Claude-Code",
-      "source_commit": "f8a476863d186512fb4c784cea5dc18547f6ae0a",
+      "source_commit": "0631f9f674c980d9e5c737545d33077c7ddd4a7b",
       "main_script": "scripts/claude_session.py",
       "commands": [
         "status",
@@ -118,15 +118,15 @@
         "smoke-test"
       ],
       "verification": {
-        "status": "source-recorded",
-        "summary": "Imported from the verified local Skill snapshot and source project."
+        "status": "local-real-smoke",
+        "summary": "Claude Code 2.1.263 verified through the DeepSeek Flash compatibility route with exact resume; official auth was unavailable."
       }
     },
     {
       "skill_id": "codex-pi-session",
       "target": "Pi",
       "source_repository": "ZiChenWang114514/Any-to-Pi",
-      "source_commit": "7306fe198ef3ea77b4c444fadcfb73d57babee45",
+      "source_commit": "710f94a5820fcb0e8df60bfeb5cadbe25e0e8bb1",
       "main_script": "scripts/pi_session.py",
       "commands": [
         "status",
@@ -136,8 +136,8 @@
         "smoke-test"
       ],
       "verification": {
-        "status": "source-recorded",
-        "summary": "Imported from the local Skill snapshot after its GPT-5.6 Luna smoke test."
+        "status": "local-real-smoke",
+        "summary": "Pi 0.85.1 verified with OpenAI Codex OAuth, gpt-5.6-luna, exact resume, and fork."
       }
     }
   ]

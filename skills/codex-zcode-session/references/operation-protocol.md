@@ -12,7 +12,7 @@ The command's process group belongs to the helper invocation. On Windows, timeou
 
 ## Smoke test
 
-The smoke test requires configured model access. It copies the credential-bearing config into a temporary `ZCODE_HOME`, never prints it, uses `plan` mode, checks the fixed reply, and deletes the temporary directory when the subprocess exits.
+The smoke test requires configured model access. It copies the credential-bearing config into a temporary `USERPROFILE` on Windows or `HOME` elsewhere, never prints it, uses `plan` mode, checks the fixed reply, and deletes the temporary directory when the subprocess exits. Internal `builtin:` desktop routes are replaced only inside this isolated profile with the configured public-provider smoke model.
 
 ## Result interpretation
 

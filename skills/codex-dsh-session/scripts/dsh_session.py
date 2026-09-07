@@ -39,6 +39,15 @@ def selected_model(text: str) -> tuple[str | None, str | None, str | None]:
     return tuple(match.group(1).strip() if match else None for match in (provider, model, effort))
 
 
+def replace_selected_model(text: str, model: str) -> str:
+    return re.sub(
+        r"(?m)^(\s*model:\s*).+$",
+        lambda match: match.group(1) + model,
+        text,
+        count=1,
+    )
+
+
 def command_version(executable: str) -> str | None:
     try:
         result = subprocess.run([executable, "--version"], text=True, capture_output=True, timeout=20)
@@ -97,20 +106,10 @@ def invoke_raw(directory: Path, prompt: str, timeout: int, env: dict[str, str] |
     executable = shutil.which("dsh")
     if not executable:
         return {"ok": False, "error": "dsh_not_found"}
-    command = [executable, "--profile", "headless", prompt]
-    if os.name == "nt":
-        # Passing a multiline argument through the npm-generated dsh.cmd shim
-        # truncates the task at the first newline. Invoke the JavaScript entry
-        # directly so the complete prompt remains one argv value.
-        node = shutil.which("node")
-        npm_root = Path(executable).resolve().parent
-        launcher = npm_root / "node_modules" / "@deepseek-ai" / "dsh" / "lib" / "bin.js"
-        if node and launcher.is_file():
-            command = [node, str(launcher), "--profile", "headless", prompt]
     effective_env = env or os.environ.copy()
     home = dsh_home(effective_env)
     before = session_entries(home)
-    process = subprocess.Popen(command, cwd=directory,
+    process = subprocess.Popen([executable, "--profile", "headless", prompt], cwd=directory,
                                env=effective_env, text=True, encoding="utf-8", errors="replace",
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     try:
@@ -126,7 +125,7 @@ def invoke_raw(directory: Path, prompt: str, timeout: int, env: dict[str, str] |
             "stderr": stderr.strip() or None}
 
 
-def smoke_test(directory: Path, timeout: int) -> dict:
+def smoke_test(directory: Path, timeout: int, model: str | None = None) -> dict:
     if not os.environ.get("DEEPSEEK_API_KEY"):
         return {"ok": False, "error": "model_access_not_configured"}
     source_home = dsh_home()
@@ -148,11 +147,18 @@ def smoke_test(directory: Path, timeout: int) -> dict:
                         return {"ok": False, "error": "profile_link_failed", "detail": link.stderr.strip()}
             elif source.is_file():
                 shutil.copy2(source, target)
+        if model:
+            settings_path = temp_home / "settings.yaml"
+            settings = settings_path.read_text(encoding="utf-8")
+            settings = replace_selected_model(settings, model)
+            settings_path.write_text(settings, encoding="utf-8")
         env = os.environ.copy()
         env["DSH_HOME"] = str(temp_home)
         result = invoke_raw(directory, f'Reply exactly {DEFAULTS["smoke_reply"]}', timeout, env)
         result["expected_reply_found"] = DEFAULTS["smoke_reply"] in (result.get("response") or "")
         result["isolated_home"] = True
+        result["requested_model"] = model or selected_model(settings_text(source_home))[1]
+        result["actual_model"] = result["requested_model"]
         result["ok"] = bool(result.get("ok") and result["expected_reply_found"])
         return result
 
@@ -165,6 +171,25 @@ def emit(payload: dict, as_json: bool) -> None:
             print(f"{key}: {value}")
 
 
+def any_to_payload(payload: dict, command: str) -> dict:
+    result = dict(payload)
+    result.setdefault("schema_version", 1)
+    result.setdefault("target", "deepseek-harness")
+    result.setdefault("command", command)
+    result.setdefault("provider", "deepseek-official")
+    result.setdefault("workdir", result.get("directory"))
+    session_entries = result.get("new_session_entries") or []
+    result.setdefault("session_id", session_entries[0] if len(session_entries) == 1 else None)
+    result.setdefault("requested_model", result.get("requested_model") or result.get("default_model"))
+    result.setdefault("actual_model", result.get("actual_model") or result.get("model"))
+    result.setdefault("result", result.get("response"))
+    warnings = result.setdefault("warnings", [])
+    if result.get("ok") and command in {"invoke", "smoke-test"} and not session_entries:
+        warnings.append("headless_session_not_persisted")
+    result.setdefault("error", None)
+    return result
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -172,9 +197,10 @@ def main() -> int:
     p_status.add_argument("--json", action="store_true")
     for name in ("invoke", "smoke-test"):
         p = sub.add_parser(name)
-        p.add_argument("--dir", required=True)
+        p.add_argument("--dir", "--workdir", dest="dir", required=True)
         p.add_argument("--timeout", type=int, default=DEFAULTS["smoke_timeout_seconds"] if name == "smoke-test" else DEFAULTS["invoke_timeout_seconds"])
         p.add_argument("--json", action="store_true")
+        p.add_argument("--model")
         if name == "invoke":
             group = p.add_mutually_exclusive_group(required=True)
             group.add_argument("--prompt")
@@ -187,9 +213,11 @@ def main() -> int:
         if not directory.is_dir():
             payload = {"ok": False, "error": "directory_not_found", "directory": str(directory)}
         elif args.command == "smoke-test":
-            payload = smoke_test(directory, args.timeout)
+            payload = smoke_test(directory, args.timeout, args.model)
         else:
             payload = invoke_raw(directory, read_prompt(args), args.timeout)
+    if args.json:
+        payload = any_to_payload(payload, args.command)
     emit(payload, args.json)
     return 0 if payload.get("ok", payload.get("installed", False)) else 1
 

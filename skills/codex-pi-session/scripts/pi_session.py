@@ -205,12 +205,7 @@ def execute_payload(args: argparse.Namespace) -> dict[str, Any]:
             requested_model=args.model,
             error="directory_not_found",
         )
-    prompt = (
-        f"@{Path(args.prompt_file).resolve()}"
-        if args.prompt_file
-        else prompt_text(args)
-    )
-    raw = run_jsonl(pi_command(args, prompt), cwd=workdir, timeout=args.timeout)
+    raw = run_jsonl(pi_command(args, prompt_text(args)), cwd=workdir, timeout=args.timeout)
     warnings = [raw["stderr"]] if raw.get("stderr") else []
     return envelope(
         args.command,

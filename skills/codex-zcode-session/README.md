@@ -26,7 +26,7 @@ This repository is a local session adapter: a Python CLI, plus a Codex Skill wra
 | --- | --- |
 | Skill structure and Python wrapper | Validated in CI on Windows |
 | ZCode runtime discovery | `zcode-app-cli 3.9.2-16`, runtime `0.16.5` |
-| Model catalog | GLM-5-Turbo, GLM-5.2, GLM-5.3 and GLM-5.3-Flash detected |
+| Model catalog | GLM-5.2, GLM-5.3 and GLM-5.3-Flash detected |
 | Multimodal declaration | GLM-5.3-Flash declares image, PDF and video input |
 | Live GLM response | Requires a configured Coding Plan key; catalog visibility alone does not prove access |
 
@@ -35,7 +35,7 @@ This repository is a local session adapter: a Python CLI, plus a Codex Skill wra
 - Resume by full session ID and keep the original working directory. The helper does not use ZCode's "latest session" shortcut.
 - Return versions, selected models, multimodal entries, and setup state as JSON.
 - Choose `plan`, `build`, `edit`, or `yolo` for each headless request.
-- Run the smoke test in a temporary `ZCODE_HOME` and remove that test data afterward.
+- Run the smoke test under a temporary OS user profile and remove that test data afterward.
 - Accept long instructions from UTF-8 prompt files instead of shell quoting.
 
 Codex, Claude Code, Grok Build, and other tools can call the Python CLI. Codex users can also invoke `$codex-zcode-session` after installing the Skill.
@@ -69,7 +69,7 @@ A useful first result looks like:
 
 ```json
 {
-  "main_model": "bigmodel/GLM-5-Turbo",
+  "main_model": "zai/glm-5.3",
   "lite_model": "zai/glm-5.3-flash",
   "required_models_present": true,
   "model_access_configured": false
@@ -109,9 +109,9 @@ python .\scripts\zcode_session.py invoke `
 
 | Role | Model | Input |
 | --- | --- | --- |
-| Primary work | `bigmodel/GLM-5-Turbo` | Text |
+| Primary work | `zai/glm-5.3` | Text |
 | Lightweight and multimodal work | `zai/glm-5.3-flash` | Text, image, PDF, video |
-| Compatibility options | `zai/glm-5.2`, `zai/glm-5.3` | Text |
+| Compatibility option | `zai/glm-5.2` | Text |
 
 Changing the user configuration affects newly created sessions. A resumed session may keep the model stored in its history.
 

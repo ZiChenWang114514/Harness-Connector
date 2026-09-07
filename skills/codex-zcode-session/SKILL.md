@@ -1,6 +1,6 @@
 ---
 name: codex-zcode-session
-description: 在用户要求安装后检查、配置、启动、继续、监督或排查本机 ZCode CLI 会话，或希望使用 GLM-5-Turbo、GLM-5.2、GLM-5.3、GLM-5.3-Flash 完成编码任务时使用；覆盖 Windows 无头调用、模型检查、准确会话恢复和隔离测试。不用于操作 ZCode Desktop 图形界面。
+description: 在用户要求安装后检查、配置、启动、继续、监督或排查本机 ZCode CLI 会话，或希望使用 GLM-5.2、GLM-5.3、GLM-5.3-Flash 完成编码任务时使用；覆盖 Windows 无头调用、模型检查、准确会话恢复和隔离测试。不用于操作 ZCode Desktop 图形界面。
 ---
 
 # Codex ZCode Session
@@ -23,9 +23,9 @@ description: 在用户要求安装后检查、配置、启动、继续、监督�
 
 状态结果应包含当前主模型、轻量任务模型、可见模型和多模态能力。当前推荐配置为：
 
-- 主模型：`bigmodel/GLM-5-Turbo`
+- 主模型：`zai/glm-5.3`
 - 轻量任务：`zai/glm-5.3-flash`
-- 可选兼容模型：`zai/glm-5.2`、`zai/glm-5.3`
+- 可选兼容模型：`zai/glm-5.2`
 
 `glm-5.3-flash` 支持图片、PDF 和视频输入。模型出现在配置中只表示可以选择；只有真实请求返回正确内容，才能说明访问有效。
 
@@ -58,7 +58,7 @@ python <skill-dir>\scripts\zcode_session.py smoke-test `
   --dir <safe-dir> --json
 ```
 
-测试在临时 `ZCODE_HOME` 中运行，只复制必要配置，使用 `plan` 模式并在结束后删除临时数据。若凭据尚未配置，测试应明确报告 `model_access_not_configured`，不得伪造成功。
+测试通过临时 `USERPROFILE`（Windows）或 `HOME`（其他平台）隔离 ZCode 配置，只复制必要配置，使用 `plan` 模式并在结束后删除临时数据。若凭据尚未配置，测试应明确报告 `model_access_not_configured`，不得伪造成功。
 
 ## 操作要求
 

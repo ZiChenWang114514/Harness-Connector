@@ -26,7 +26,7 @@
 | --- | --- |
 | Skill 结构与 Python 封装 | 在 Windows CI 中通过 |
 | ZCode 运行时发现 | `zcode-app-cli 3.9.2-16`，runtime `0.16.5` |
-| 模型目录 | 检测到 GLM-5-Turbo、GLM-5.2、GLM-5.3 和 GLM-5.3-Flash |
+| 模型目录 | 检测到 GLM-5.2、GLM-5.3 和 GLM-5.3-Flash |
 | 多模态声明 | GLM-5.3-Flash 声明支持图片、PDF 和视频输入 |
 | 真实 GLM 回复 | 需要已配置的 Coding Plan 密钥；目录可见不能证明当前可访问 |
 
@@ -35,7 +35,7 @@
 - 用完整会话 ID 继续会话，并保持原工作目录。脚本不会使用 ZCode 的“最近会话”捷径。
 - 以 JSON 返回版本、已选模型、多模态条目和配置状态。
 - 每次无头请求可选择 `plan`、`build`、`edit` 或 `yolo`。
-- 冒烟测试使用临时 `ZCODE_HOME`，结束后删除测试数据。
+- 冒烟测试使用临时操作系统用户目录，结束后删除测试数据。
 - 长提示写入 UTF-8 文件，避免命令行引号问题。
 
 Codex、Claude Code、Grok Build 等工具都可以直接调用 Python 脚本。安装 Skill 后，Codex 也可以使用 `$codex-zcode-session`。
@@ -69,7 +69,7 @@ python "$env:USERPROFILE\.codex\skills\codex-zcode-session\scripts\zcode_session
 
 ```json
 {
-  "main_model": "bigmodel/GLM-5-Turbo",
+  "main_model": "zai/glm-5.3",
   "lite_model": "zai/glm-5.3-flash",
   "required_models_present": true,
   "model_access_configured": false
@@ -109,9 +109,9 @@ python .\scripts\zcode_session.py invoke `
 
 | 角色 | 模型 | 输入 |
 | --- | --- | --- |
-| 主要工作 | `bigmodel/GLM-5-Turbo` | 文本 |
+| 主要工作 | `zai/glm-5.3` | 文本 |
 | 轻量与多模态 | `zai/glm-5.3-flash` | 文本、图片、PDF、视频 |
-| 兼容选项 | `zai/glm-5.2`、`zai/glm-5.3` | 文本 |
+| 兼容选项 | `zai/glm-5.2` | 文本 |
 
 修改用户配置会影响之后新建的会话。继续已有会话时，可能仍使用历史记录中的模型。
 

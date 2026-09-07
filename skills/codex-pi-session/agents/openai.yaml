@@ -1,5 +1,5 @@
 interface:
-  display_name: "Codex Pi Session"
+  display_name: "Pi Session"
   short_description: "Run and resume local Pi coding sessions"
   default_prompt: "Use $codex-pi-session to run this task in the specified workspace."
 policy:

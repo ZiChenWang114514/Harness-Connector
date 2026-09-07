@@ -3,7 +3,7 @@ name: codex-pi-session
 description: 在用户要求检查、启动、继续、分叉或排查本机 Pi 会话，或希望让其他编码助手调用 Pi 时使用；覆盖非交互 JSONL、准确会话 ID、模型核验与隔离测试。不用于安装、升级、登录或修改 Pi 全局配置。
 ---
 
-# Codex Pi Session
+# Pi Session
 
 将 Pi 作为可由任意兼容 Harness 调用的本机编码协作者。开始前确认工作目录、任务内容、已有修改和验证命令。
 

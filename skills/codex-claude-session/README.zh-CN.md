@@ -136,6 +136,8 @@ python .\scripts\claude_session.py smoke-test --provider deepseek --model flash 
 | [Any-to-ZCode](https://github.com/ZiChenWang114514/Any-to-ZCode) | ZCode / GLM |
 | [Any-to-DeepSeek-Harness](https://github.com/ZiChenWang114514/Any-to-DeepSeek-Harness) | DeepSeek Harness |
 | [Any-to-Codex](https://github.com/ZiChenWang114514/Any-to-Codex) | Codex CLI |
+| [Any-to-Pi](https://github.com/ZiChenWang114514/Any-to-Pi) | Pi |
+| [Any-to-Antigravity](https://github.com/ZiChenWang114514/Any-to-Antigravity) | Google Antigravity CLI |
 
 ## License
 
